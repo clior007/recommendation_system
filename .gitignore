@@ -1,0 +1,4 @@
+venv/
+data/
+kafka_utils/__pycache__/kafka_admin.cpython-38.pyc
+utils/__pycache__/config.cpython-38.pyc

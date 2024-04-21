@@ -1,0 +1,22 @@
+servers:
+  kafka:
+    topics:
+      movies:
+        server: "localhost"
+        port: "9093"
+        partitions: 3
+        replication_factor: 1
+      ratings:
+        server: "localhost"
+        port: "9093"
+        partitions: 3
+        replication_factor: 1
+
+data_sources:
+  csv:
+    - name: "movies"
+      type: "csv"
+      path: "data/ml-25m/movies.csv"
+    - name: "ratings"
+      type: "csv"
+      path: "data/ml-25m/ratings.csv"
