@@ -13,10 +13,19 @@ servers:
         replication_factor: 1
 
 data_sources:
-  csv:
-    - name: "movies"
+  topics:
+    movies:
       type: "csv"
-      path: "data/ml-25m/movies.csv"
-    - name: "ratings"
+      path: "/home/lior/devel/training/recommendation_system/data_providers/ml-25m/movies.csv"
+    ratings:
       type: "csv"
-      path: "data/ml-25m/ratings.csv"
+      path: "/home/lior/devel/training/recommendation_system/data_providers/ml-25m/ratings.csv"
+
+#data_sources:
+#  csv:
+#    - name: "movies"
+#      type: "csv"
+#      path: "data/ml-25m/movies.csv"
+#    - name: "ratings"
+#      type: "csv"
+#      path: "data/ml-25m/ratings.csv"

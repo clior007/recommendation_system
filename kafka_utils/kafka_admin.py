@@ -15,21 +15,24 @@ class KafkaProducerAdmin:
             server = kafka_topics[topic_name]['server']
             port = kafka_topics[topic_name]['port']
             admin_client = KafkaAdminClient(bootstrap_servers=f'{server}:{port}')
-            if not topic_name in admin_client.list_topics():
-                print (f'Creating topic: {topic_name}')
-                num_partitions = kafka_topics[topic_name]['partitions']
-                replication_factor = kafka_topics[topic_name]['replication_factor']
+            if topic_name in admin_client.list_topics():
+                admin_client.delete_topics([topic_name])
 
-                producer = KafkaProducer(bootstrap_servers=f'{server}:{port}')
-                producer.send(topic_name, "test".encode('utf-8'))
-                self._producers[topic_name] = producer
-
-                topic_partitions = {}
-                topic_partitions[topic_name] = NewPartitions(total_count=num_partitions)
-                admin_client.create_partitions(topic_partitions)
+            print (f'Creating topic: {topic_name}')
+            num_partitions = kafka_topics[topic_name]['partitions']
+            replication_factor = kafka_topics[topic_name]['replication_factor']
+            producer = KafkaProducer(bootstrap_servers=f'{server}:{port}')
+            producer.send(topic_name, "test".encode('utf-8'))
+            self._producers[topic_name] = producer
+            topic_partitions = {}
+            topic_partitions[topic_name] = NewPartitions(total_count=num_partitions)
+            admin_client.create_partitions(topic_partitions)
             
             admin_client.close()
 
+    def get_producers(self):
+        return self._producers
+    
     def close_producers(self):
         for topic in self._producers:
             print(f"Closing producer: {topic}")

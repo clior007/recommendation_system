@@ -1,4 +1,5 @@
 venv/
-data/
+data_providers/ml-25m*
 kafka_utils/__pycache__/kafka_admin.cpython-38.pyc
 utils/__pycache__/config.cpython-38.pyc
+data_providers/csv/__pycache__/csv_admin.cpython-38.pyc
