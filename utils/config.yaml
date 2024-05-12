@@ -1,14 +1,12 @@
 servers:
   kafka:
+    server: "localhost"
+    port: "9093"
     topics:
       movies:
-        server: "localhost"
-        port: "9093"
         partitions: 3
         replication_factor: 1
       ratings:
-        server: "localhost"
-        port: "9093"
         partitions: 3
         replication_factor: 1
 
