@@ -2,6 +2,7 @@ import csv
 
 from utils.config import SingletonConfigLoader
 from kafka_utils.kafka_producer_admin import KafkaProducerAdmin
+from kafka_utils.kafka_consumer_admin import KafkaConsumerAdmin
 from kafka_utils.kafka_topics_admin import KafkaTopicsAdmin
 from data_providers.csv.csv_admin import CSVReadersAdmin
 
@@ -19,13 +20,27 @@ def main():
     csv_readers = csv_readaers_admin.get_readers()
 
     kafka_producer_admin = KafkaProducerAdmin()
+    kafka_consumer_admin = KafkaConsumerAdmin()
     for topic in csv_readers:
         print(topic)
         reader = csv_readers[topic]
         # todo add multithreading here - each reader should be a separate thread
+        i = 0
         for row in reader:
+            if i >= 10:
+                break
             message = ','.join(row)
             kafka_producer_admin.send_message(kafka_topics_admin, topic, message)
+            i += 1
+
+        kafka_consumer_admin.receive_message(kafka_topics_admin, topic)
+
+    print("Done")
+        
+        
+
+
+    
 
 
 
