@@ -17,25 +17,25 @@ class KafkaTopicsAdmin:
 
     def add_topics(self):
         kafka_topics = self._config.get_value(f'servers.kafka.topics')
+
         for topic_name in kafka_topics:
-            if topic_name in self._admin_client.list_topics():
-                self._admin_client.delete_topics([topic_name])
-                sleep(3)
-
-            print (f'Creating topic: {topic_name}')
             num_partitions = kafka_topics[topic_name]['partitions']
-            new_topic = NewTopic(name=topic_name, num_partitions=num_partitions, replication_factor=1)
             self._topic_patrtitions[topic_name] = num_partitions
-            
-            try:
-                create_topics_future = self._admin_client.create_topics(new_topics=[new_topic], timeout_ms=60000)
-            except Exception as e:
-                print(f"Failed to create topic {topic_name}: {e}")
+            if not topic_name in self._admin_client.list_topics():
+                print (f'Creating topic: {topic_name}')
+                new_topic = NewTopic(name=topic_name, num_partitions=num_partitions, replication_factor=1)
+                
+                try:
+                    create_topics_future = self._admin_client.create_topics(new_topics=[new_topic], timeout_ms=60000)
+                    sleep(3)
 
+                except Exception as e:
+                    print(f"Failed to create topic {topic_name}: {e}")
+                
     def get_num_partitions(self, topic_name):
         return self._topic_patrtitions[topic_name]
 
-    def delete_topics(self):
+    def delete_topics(self, topic_name):
         kafka_topics = self._config.get_value(f'servers.kafka.topics')
         for topic_name in kafka_topics:
             if topic_name in self._admin_client.list_topics():

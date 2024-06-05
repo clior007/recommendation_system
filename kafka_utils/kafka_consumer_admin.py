@@ -17,7 +17,6 @@ class KafkaConsumerAdmin:
     def receive_message(self, kafka_topics_admin, topic):
         partition_number = random.randint(0, kafka_topics_admin.get_num_partitions(topic) - 1)
         self._consumer.assign([TopicPartition(topic, partition_number)])
-        #self._consumer.next()
         for message in self._consumer:
             print(f"Receiving message from topic {topic} partition {partition_number}: {message}")
     

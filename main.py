@@ -22,7 +22,6 @@ def main():
     kafka_producer_admin = KafkaProducerAdmin()
     kafka_consumer_admin = KafkaConsumerAdmin()
     for topic in csv_readers:
-        print(topic)
         reader = csv_readers[topic]
         # todo add multithreading here - each reader should be a separate thread
         i = 0
